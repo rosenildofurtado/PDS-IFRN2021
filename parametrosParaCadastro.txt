@@ -1,0 +1,1 @@
+dispositivo, momentoMedicao, modelo, mac, ip, processador, memoriaRAM, discoHD, discoSSD, cpu, ram, hd, ssd, temperaturaCPU, up, down

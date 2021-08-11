@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>SMH - Dashboard</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+        {% load static %}
+        <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
+        <style>
+            * {
+                padding: 0;
+                margin: 0;
+                box-sizing: border-box;
+                outline: 0;
+                font-family: 'Roboto', sans-serif;
+            }
+
+            body {
+                display: flex;
+                flex-direction: row;
+                width: 100vw;
+                height: 100vh;
+            }
+
+            .sidebar {
+                height: 100%;
+                width: 250px;
+                background: #FEFBFF;
+                box-shadow: 0px 4px 20px rgba(70, 142, 250, 0.3);
+                border-top-right-radius: 20px;
+                border-bottom-right-radius: 20px;
+                flex: none;
+
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+            }
+
+            .sidebar-header {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                padding: 40px 0;
+            }
+
+            .sidebar-header img {
+                width: 108px;
+                height: 108px;
+                border-radius: 100%;
+                margin-bottom: 10px;
+            }
+
+            .sidebar-header h1 {
+                color: #262626;
+            }
+
+            .sidebar-header p {
+                color: #555555;
+            }
+
+            .sidebar-menu {
+                padding: 0 20px;
+            }
+
+            .sidebar-menu > p {
+                font-size: 14px;
+                color: #A8A8A8;
+                margin-bottom: 10px;
+            }
+
+            .sidebar-menu-item {
+                padding: 10px;
+                border-radius: 5px;
+                transition: .2s;
+                color: #00255C;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                text-decoration: none;
+            }
+
+            .sidebar-menu-item-icon {
+                width: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-right: 10px;
+            }
+
+            .sidebar-menu-item:hover {
+                cursor: pointer;
+                background-color: #E0EDFF;
+            }
+
+            .sidebar-menu-item.selected {
+                background-color: #468EFA;
+                color: white;
+            }
+
+            .content {
+                width: 100%;
+                height: 100%;
+                padding: 50px;
+                display: flex;
+                flex-direction: column;
+                overflow: auto;
+            }
+
+            .content-header {
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+
+            .content-header h2 {
+                color: #00255C;
+            }
+
+            .card-list {
+                display: flex;
+                /* justify-content: space-between; */
+                /* flex-direction: row; */
+                /* flex-wrap: wrap; */
+            }
+
+            .card {
+                /* margin-top: 20px; */
+                margin: 20px 20px 20px 0px;
+                width: 250px;
+                height: 100px;
+                border: black solid 1px;
+            }
+
+            .card-title {
+                margin: 20px;
+                float: left;
+                max-width: 40%;
+            }
+
+            .card-value {
+                margin: 20px;
+                float: right;
+                font-size: 35px;
+                max-width: 60%;
+            }
+
+            .tb-monitoring {
+                /* border: black solid 1px; */
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            table {
+                width: 100%;
+            }
+
+            table, th, td {
+                text-align: center;
+                border: 1px solid black;
+            }
+
+            th {
+                padding: 20px;
+            }
+
+            td {
+                padding: 5px 20px 5px 20px;
+            }
+
+            .btn-filter {
+                float: right;
+                padding: 5px 20px;
+                border-radius: 20px;
+                margin-bottom: 20px;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <img src="https://static.wikia.nocookie.net/avatar/images/c/ce/Aang.png/revision/latest/smart/width/250/height/250?cb=20161129194603&path-prefix=pt-br" />
+                <h3>Aria Siqueira</h3>
+                <p>DTI - Central</p>
+            </div>
+            <div class="sidebar-menu">
+                <p>Menu</p>
+                <a class="sidebar-menu-item selected" href="/dashboard">
+                    <div class="sidebar-menu-item-icon">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <p>Dashboard</p>
+                </a>
+                <a class="sidebar-menu-item" href="/devices">
+                    <div class="sidebar-menu-item-icon">
+                        <i class="fa-solid fa-laptop"></i>
+                    </div>
+                    <p>Dispositivos</p>
+                </a>
+                <a class="sidebar-menu-item" href="/devicetypes">
+                    <div class="sidebar-menu-item-icon">
+                        <i class="fa-solid fa-server"></i>
+                    </div>
+                    <p>Tipos de Dispositivos</p>
+                </a>
+                <a class="sidebar-menu-item" href="/users">
+                    <div class="sidebar-menu-item-icon">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <p>Usuários</p>
+                </a>
+                <a class="sidebar-menu-item" href="/departments">
+                    <div class="sidebar-menu-item-icon">
+                        <i class="fa-solid fa-building"></i>
+                    </div>
+                    <p>Setores</p>
+                </a>
+                <a class="sidebar-menu-item" onclick="openFile()">
+                    <div class="sidebar-menu-item-icon">
+                        <i class="fa-solid fa-upload"></i>
+                    </div>
+                    <p>Importar arquivo</p>
+                </a>
+               
+                {% if form.is_multipart %}
+                    <form enctype="multipart/form-data" method="post" action="{% url 'smhapp:arquivoMedicao'%}">
+                {% else %}
+                    <form method="post" action="{% url 'smhapp:arquivoMedicao'%}">
+                {% endif %}
+                {% csrf_token %}
+                {{ form }}
+                <input type="submit" name="enviar" id="enviar" value="enviar">
+                </form>
+                <input type="file" name="arq" id="arq" value="Arquivo" style="display: none;">
+            </div>
+        </div>
+        <div class="content">
+            <h2>Dashboard</h2>
+            <div class="card-list">
+                <div class="card">
+                    <label class="card-title">Críticos</label>
+                    <label class="card-value">20</label>
+                </div>
+                <div class="card">
+                    <label class="card-title">Atenção</label>
+                    <label class="card-value">15</label>
+                </div>
+                <div class="card">
+                    <label class="card-title">Computadores ligados</label>
+                    <label class="card-value">160</label>
+                </div>
+                <div class="card">
+                    <label class="card-title">Máximo hoje</label>
+                    <label class="card-value">190</label>
+                </div>
+            </div>
+            <h3>Monitoramento</h3>
+            <button class="btn-filter">Filtrar</button>
+            <table class="tb-monitoring">
+                <thead>
+                    <tr>
+                        <th>ID Maquina</th>
+                        <th>Setor</th>
+                        <th>Sala</th>
+                        <th>IP</th>
+                        <th>CPU</th>
+                        <th>RAM %</th>
+                        <th>Disco %</th>
+                        <th>Temp Cº</th>
+                        <th>UP</th>
+                        <th>DOWN</th>
+                        <th>T online</th>
+                        <th>etc</th>
+                      </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            M01
+                        </td>
+                        <td>
+                            DIATINF
+                        </td>
+                        <td>
+                            LAB 1
+                        </td>
+                        <td>
+                            10.0.5.102
+                        </td>
+                        <td>
+                            73
+                        </td>
+                        <td>
+                            52
+                        </td>
+                        <td>
+                            43
+                        </td>
+                        <td>
+                            53
+                        </td>
+                        <td>
+                            2.3
+                        </td>
+                        <td>
+                            38.5
+                        </td>
+                        <td>
+                            3:45:26
+                        </td>
+                        <td>
+                            etc
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            M01
+                        </td>
+                        <td>
+                            DIATINF
+                        </td>
+                        <td>
+                            LAB 1
+                        </td>
+                        <td>
+                            10.0.5.102
+                        </td>
+                        <td>
+                            73
+                        </td>
+                        <td>
+                            52
+                        </td>
+                        <td>
+                            43
+                        </td>
+                        <td>
+                            53
+                        </td>
+                        <td>
+                            2.3
+                        </td>
+                        <td>
+                            38.5
+                        </td>
+                        <td>
+                            3:45:26
+                        </td>
+                        <td>
+                            etc
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            M01
+                        </td>
+                        <td>
+                            DIATINF
+                        </td>
+                        <td>
+                            LAB 1
+                        </td>
+                        <td>
+                            10.0.5.102
+                        </td>
+                        <td>
+                            73
+                        </td>
+                        <td>
+                            52
+                        </td>
+                        <td>
+                            43
+                        </td>
+                        <td>
+                            53
+                        </td>
+                        <td>
+                            2.3
+                        </td>
+                        <td>
+                            38.5
+                        </td>
+                        <td>
+                            3:45:26
+                        </td>
+                        <td>
+                            etc
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            M01
+                        </td>
+                        <td>
+                            DIATINF
+                        </td>
+                        <td>
+                            LAB 1
+                        </td>
+                        <td>
+                            10.0.5.102
+                        </td>
+                        <td>
+                            73
+                        </td>
+                        <td>
+                            52
+                        </td>
+                        <td>
+                            43
+                        </td>
+                        <td>
+                            53
+                        </td>
+                        <td>
+                            2.3
+                        </td>
+                        <td>
+                            38.5
+                        </td>
+                        <td>
+                            3:45:26
+                        </td>
+                        <td>
+                            etc
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <script type="text/javascript">
+            function openFile(){
+                document.getElementById("arq").click();
+            }
+            /*
+
+             function loadFile(){
+                var input = document.getElementById("arq");
+                var file, fr;
+
+                file = input.files[0];
+                fr = new FileReader();
+                fr.onload = receivedText(file);
+                fr.readAsText(file);
+                
+            }
+
+            function receivedText(e){
+                let lines = e.target.result;
+                var newArr = JSON.parse(lines);
+                alert(newArr);
+            } */
+
+            document.getElementById("arq").onchange=function(event){
+                let file = event.target.files[0];
+                let reader = new FileReader();
+                reader.addEventListener('load', function(e) {
+                        let text = e.target.result;
+                        alert(JSON.parse(text));
+                });
+                reader.readAsText(file);
+             };
+        </script>
+    </body>
+</html>
