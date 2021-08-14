@@ -403,7 +403,7 @@
                             LAB 1
                         </td>
                         <td>
-                            10.0.5.102
+                            {{forma.value}}
                         </td>
                         <td>
                             73
@@ -437,34 +437,6 @@
             function openFile(){
                 document.getElementById("arq").click();
             }
-            /*
-
-             function loadFile(){
-                var input = document.getElementById("arq");
-                var file, fr;
-
-                file = input.files[0];
-                fr = new FileReader();
-                fr.onload = receivedText(file);
-                fr.readAsText(file);
-                
-            }
-
-            function receivedText(e){
-                let lines = e.target.result;
-                var newArr = JSON.parse(lines);
-                alert(newArr);
-            } */
-
-            document.getElementById("arq").onchange=function(event){
-                let file = event.target.files[0];
-                let reader = new FileReader();
-                reader.addEventListener('load', function(e) {
-                        let text = e.target.result;
-                        alert(JSON.parse(text));
-                });
-                reader.readAsText(file);
-             };
         </script>
     </body>
 </html>
