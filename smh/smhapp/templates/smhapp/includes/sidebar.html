@@ -1,0 +1,40 @@
+<div class="sidebar">
+    <div class="sidebar-header">
+        <img src="https://static.wikia.nocookie.net/avatar/images/c/ce/Aang.png/revision/latest/smart/width/250/height/250?cb=20161129194603&path-prefix=pt-br" />
+        <h3>Aria Siqueira</h3>
+        <p>DTI - Central</p>
+    </div>
+    <div class="sidebar-menu">
+        <p>Menu</p>
+        <a class="sidebar-menu-item {% if path == '/dashboard/' %} selected{% endif %}" href="/dashboard">
+            <div class="sidebar-menu-item-icon">
+                <i class="fa-solid fa-chart-line"></i>
+            </div>
+            <p>Dashboard</p>
+        </a>
+        <a class="sidebar-menu-item{% if path == '/devices/' %} selected{% endif %}" href="/devices">
+            <div class="sidebar-menu-item-icon">
+                <i class="fa-solid fa-laptop"></i>
+            </div>
+            <p>Dispositivos</p>
+        </a>
+        <a class="sidebar-menu-item{% if path == '/devicetypes/' %} selected{% endif %}" href="/devicetypes">
+            <div class="sidebar-menu-item-icon">
+                <i class="fa-solid fa-server"></i>
+            </div>
+            <p>Tipos de Dispositivos</p>
+        </a>
+        <a class="sidebar-menu-item {% if path == '/users/' %} selected{% endif %}" href="/users">
+            <div class="sidebar-menu-item-icon">
+                <i class="fa-solid fa-users"></i>
+            </div>
+            <p>Usuários</p>
+        </a>
+        <a class="sidebar-menu-item {% if path == '/departments/' %} selected{% endif %} {% if path == '/departments/rooms/' %} selected{% endif %}" href="/departments">
+            <div class="sidebar-menu-item-icon">
+                <i class="fa-solid fa-building"></i>
+            </div>
+            <p>Setores</p>
+        </a>
+    </div>
+</div>

@@ -7,386 +7,281 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> 
         {% load static %}
-        <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
-        <style>
-            * {
-                padding: 0;
-                margin: 0;
-                box-sizing: border-box;
-                outline: 0;
-                font-family: 'Roboto', sans-serif;
-            }
-
-            body {
-                display: flex;
-                flex-direction: row;
-                width: 100vw;
-                height: 100vh;
-            }
-
-            .sidebar {
-                height: 100%;
-                width: 250px;
-                background: #FEFBFF;
-                box-shadow: 0px 4px 20px rgba(70, 142, 250, 0.3);
-                border-top-right-radius: 20px;
-                border-bottom-right-radius: 20px;
-                flex: none;
-
-                display: flex;
-                flex-direction: column;
-                justify-content: flex-start;
-            }
-
-            .sidebar-header {
-                display: flex;
-                flex-direction: column;
-                justify-content: flex-start;
-                align-items: center;
-                padding: 40px 0;
-            }
-
-            .sidebar-header img {
-                width: 108px;
-                height: 108px;
-                border-radius: 100%;
-                margin-bottom: 10px;
-            }
-
-            .sidebar-header h1 {
-                color: #262626;
-            }
-
-            .sidebar-header p {
-                color: #555555;
-            }
-
-            .sidebar-menu {
-                padding: 0 20px;
-            }
-
-            .sidebar-menu > p {
-                font-size: 14px;
-                color: #A8A8A8;
-                margin-bottom: 10px;
-            }
-
-            .sidebar-menu-item {
-                padding: 10px;
-                border-radius: 5px;
-                transition: .2s;
-                color: #00255C;
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                text-decoration: none;
-            }
-
-            .sidebar-menu-item-icon {
-                width: 20px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin-right: 10px;
-            }
-            
-            .sidebar-menu-item:hover {
-                cursor: pointer;
-                background-color: #E0EDFF;
-            }
-
-            .sidebar-menu-item.selected {
-                background-color: #468EFA;
-                color: white;
-            }
-
-            .content {
-                width: 100%;
-                height: 100%;
-                padding: 50px;
-                display: flex;
-                flex-direction: column;
-                overflow: auto;
-            }
-
-            .content-header {
-                width: 100%;
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-            }
-
-            .content-header h2 {
-                color: #00255C;
-            }
-
-            .content-body {
-                margin-top: 50px;
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                grid-template-rows: repeat(3, 150px);
-                grid-gap: 20px;
-            }
-
-            .card {
-                width: 100%;
-                height: 100%;
-                background: #FEFBFF;
-                box-shadow: 0px 2px 5px rgba(70, 142, 250, 0.3);
-                border-radius: 5px;
-                padding: 20px;
-            }
-
-            button {
-                border: none;
-                outline: none;
-                padding: 10px 20px;
-                cursor: pointer;
-                border-radius: 3px;
-                transition: .2s;
-                background-color: #468EFA;
-                color: white;
-                font-size: 16px;
-            }
-
-            button:hover {
-                background-color: #2b6fd6;
-            }
-
-            input, select {
-                background-color: #E0EDFF;
-                padding: 10px;
-                border: none;
-                border-radius: 3px;
-            }
-
-            select {
-                padding: 9px 10px;
-            }
-
-            /* MODAL */
-
-            .close {
-                cursor: pointer;
-            }
-
-            .modal.show {
-                display: flex;
-            }
-
-            .modal {
-                width: 100vw;
-                height: 100vh;
-                position: absolute;
-                top: 0;
-                left: 0;
-                display: none;
-                justify-content: center;
-                align-items: center;
-                background-color: rgba(0, 0, 0, 0.5);
-                box-shadow: 0px 2px 5px rgba(0, 0, 0, 1);
-            }
-
-            .modal-container {
-                width: 600px;
-                background-color: #FFF;
-                border-radius: 5px;
-                padding: 20px;
-            }
-
-            .modal.show .modal-container {
-                animation: scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
-            }
-
-            .modal-header {
-                width: 100%;
-                display: flex;
-                justify-content: space-between;
-                margin-bottom: 20px;
-            }
-
-            .modal-content {
-                display: flex;
-                flex-direction: column;
-            }
-
-            .modal-form {
-                display: flex;
-                flex-direction: column;
-                align-items: flex-end;
-                margin-bottom: 10px;
-            }
-
-            .modal-form label, .modal-footer label  {
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                color: #555;
-            }
-
-            .modal-row {
-                width: 100%;
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                margin-top: 10px;
-            }
-
-            .modal-row label:first-child {
-                margin-right: 5px;
-            }
-
-            .modal-row label:last-child {
-                margin-left: 5px;
-            }
-
-            .modal-footer > label {
-                width: auto;
-            }
-
-            .modal-form label:nth-child(1) input {
-                width: 100%;
-            }
-
-            .modal-header > h3 {
-                color: #468EFA;
-            }
-
-            .modal-footer {
-                width: 100%;
-                margin-top: 10px;
-                display: flex;
-                justify-content: flex-end;
-                align-items: flex-end;
-            }
-
-            .price {
-                font-size: 22px;
-            }
-        </style>
+        <link href="{% static 'smhapp/variables.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'smhapp/main.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'smhapp/table.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'smhapp/sidebar.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'smhapp/pages/devices.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     </head>
     <body>
+        {% include "smhapp/includes/sidebar.html" with path=request.path %}
+        <div id="toast">Dispositivo cadastrado com sucesso!</div>
         
-        <div class="sidebar">
-            <div class="sidebar-header">
-                <img src="https://static.wikia.nocookie.net/avatar/images/c/ce/Aang.png/revision/latest/smart/width/250/height/250?cb=20161129194603&path-prefix=pt-br" />
-                <h3>Aria Siqueira</h3>
-                <p>DTI - Central</p>
-            </div>
-            <div class="sidebar-menu">
-                <p>Menu</p>
-                <a class="sidebar-menu-item" href="/dashboard">
-                    <div class="sidebar-menu-item-icon">
-                        <i class="fa-solid fa-chart-line"></i>
-                    </div>
-                    <p>Dashboard</p>
-                </a>
-                <a class="sidebar-menu-item selected" href="/devices">
-                    <div class="sidebar-menu-item-icon">
-                        <i class="fa-solid fa-laptop"></i>
-                    </div>
-                    <p>Dispositivos</p>
-                </a>
-                <a class="sidebar-menu-item" href="/devicetypes">
-                    <div class="sidebar-menu-item-icon">
-                        <i class="fa-solid fa-server"></i>
-                    </div>
-                    <p>Tipos de Dispositivos</p>
-                </a>
-                <a class="sidebar-menu-item" href="/users">
-                    <div class="sidebar-menu-item-icon">
-                        <i class="fa-solid fa-users"></i>
-                    </div>
-                    <p>Usuários</p>
-                </a>
-                <a class="sidebar-menu-item" href="/departments">
-                    <div class="sidebar-menu-item-icon">
-                        <i class="fa-solid fa-building"></i>
-                    </div>
-                    <p>Setores</p>
-                </a>
-            </div>
-        </div>
         <div class="content">
             <div class="content-header">
                 <h2>Dispositivos</h2>
-                <button onclick="toggleModal()">Novo Dispositivo</button>
+                <button onclick="toggleModalNew(); document.querySelector('.modal-title').innerHTML = 'Novo Dispositivo'; document.querySelector('.btn-submit').value = 'Cadastrar';">Novo Dispositivo</button>
             </div>
             <div class="content-body">
-                <div class="card">
-                    <p>PC01 - Assisão</p>
+                <div class="cards"></div>
+            </div>
+        </div>
+
+        <div class="modal remove">
+            <div class="modal-container" style="width: 500px">
+                <div class="modal-header">
+                    <h2>Excluir Dispositivo</h2>
                 </div>
-                <div class="card">
-                    <p>PC02 - Assisão</p>
+                <div class="modal-content">
+                    <input class="id-to-delete" type="hidden">
+                    <p class="delete-msg">Você deseja realmente excluir este dispositivo? Ele não poderá ser recuperado.</p>
                 </div>
-                <div class="card">
-                    <p>PC03 - Assisão</p>
-                </div>
-                <div class="card">
-                    <p>PC04 - Assisão</p>
+                <div class="modal-footer">
+                    <button onclick="toggleModalRemove()">Cancelar</button>
+                    <button class="btn-remove danger">Excluir</button>
                 </div>
             </div>
         </div>
 
-        <div class="modal" onclick="return false">
+        <div class="modal new" onclick="return false">
             <div class="modal-container">
                 <div class="modal-header">
-                    <h3>Novo Dispositivo</h3>
-                    <p class="close" onclick="toggleModal()">X</p>
+                    <h3 class="modal-title">Novo Dispositivo</h3>
+                    <p class="close" onclick="toggleModalNew(); ">
+                        <i class="fa-solid fa-times"></i>
+                    </p>
                 </div>
                 <div class="modal-content">
-                    <div class="modal-form">
-                        <div class="modal-row">
-                            <label>
-                                Nome
-                                <input type="text" placeholder="Ex.: PC01 - Assisão">
-                            </label>
-                            <label>
-                                Tipo
-                                <select>
-                                    <option value="">Computador</option>
-                                    <option value="">Tablet</option>
-                                    <option value="">Switch</option>
-                                </select>
-                            </label>
+                    <form id="form" onsubmit="create(this); return false">{% csrf_token %}
+                        <input name="id" type="hidden" value="">
+                        <div class="modal-form">
+                            <div class="modal-row">
+                                <label>
+                                    <p>Nome</p>
+                                    <input name="name" type="text" placeholder="Ex.: PC01 - Assisão">
+                                </label>
+                                <label>
+                                    <p>Tipo</p>
+                                    <select name="deviceType">
+                                        <option value="" selected disabled>Selecione o Tipo</option>
+                                        {% for deviceType in deviceTypes %}
+                                            <option value="{{ deviceType.id }}">{{ deviceType }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                            </div>
+                            <div class="modal-row">
+                                <label>
+                                    <p>Modelo</p>
+                                    <input name="model" type="text" placeholder="Ex.: ThinkPad">
+                                </label>
+                                <label>
+                                    <p>Setor</p>
+                                    <select name="department" onchange="department_change(this)">
+                                        <option value="" selected disabled>Selecione o Setor</option>
+                                        {% for department in departments %}
+                                            <option value="{{ department.id }}">{{ department }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                            </div>
+                            <div class="modal-row">
+                                <label>
+                                    <p>Sala</p>
+                                    <select class="room" name="room">
+                                        <option value="" selected disabled>Selecione a Sala</option>
+                                    </select>
+                                </label>
+                            </div>
                         </div>
-                        <div class="modal-row">
-                            <label>
-                                Modelo
-                                <input type="text" placeholder="Ex.: ThinkPad">
-                            </label>
-                            <label>
-                                Setor
-                                <select>
-                                    <option value="">DTI - Central</option>
-                                    <option value="">DIATINF</option>
-                                    <option value="">DIACON</option>
-                                </select>
-                            </label>
+                        <div class="modal-footer">
+                            <input class="btn-submit" type="submit" value="Cadastrar"></input>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button>Cadastrar</button>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
+
         <script>
-            function toggleModal() {
-                let list = document.querySelector('.modal').classList;
+            (function init(){
+                load_devices();
+            }());
+
+            function load_devices() {
+                $.ajax({
+                    url: '/load/load_devices',
+                    type: 'GET',
+                    success: function(data) {
+                        if (data.length == 0) {
+                            data = "<div class='no-device-container'><img class='no-device-img' src='{% static 'smhapp/imgs/404.svg' %}' alt='Nenhum dispositivo cadastrado'><h2>Nenhum dispositivo encontrado</h2><p>Clique no botão 'Novo Dispositivo' acima para cadastrar um dispositivo!</p></div>";
+                        }
+
+                        document.querySelector('.cards').innerHTML = data;
+                    }
+                });
+            }
+
+            function create(form) {
+                var id = form.id.value;
+                var name = form.name.value;
+                var deviceType_id = form.deviceType.value;
+                var model = form.model.value;
+                var room_id = form.room.value;
+
+                console.log(!id, !name, !deviceType_id, !model, !room_id);
+
+                if (!name || !deviceType_id || !model || !room_id) {
+                    showToast("Preencha todos os campos corretamente!");
+                } else {
+                    if (id) {
+                        $.ajax({
+                            url: '/load/edit_device',
+                            type: 'POST',
+                            headers: {
+                                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                            },
+                            data: {
+                                id,
+                                name,
+                                deviceType_id,
+                                model,
+                                room_id
+                            },
+                            success: function(data) {
+                                showToast("Dispositivo editado com sucesso!");
+                                toggleModalNew();
+                                load_devices();
+
+                                form.elements.id = '';
+                                form.reset();
+                            }
+                        });
+                    } else {
+                        $.ajax({
+                            url: '/load/create_device',
+                            type: 'POST',
+                            headers: {
+                                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                            },
+                            data: {
+                                name,
+                                deviceType_id,
+                                model,
+                                room_id
+                            },
+                            success: function(data) {
+                                showToast("Dispositivo cadastrado com sucesso!");
+                                toggleModalNew();
+                                load_devices();
+                                form.reset();
+                            }
+                        });
+                    }
+                }
+            }
+
+            function edit_device(device_id, name, deviceType_id, model, department_id, room_id) {
+                document.querySelector('.modal-title').innerHTML = "Editar Dispositivo";
+                document.querySelector('.btn-submit').value = "Salvar";
+                let form = document.querySelector('#form');
+
+                form.id.value = device_id;
+                form.name.value = name;
+                form.deviceType.value = deviceType_id;
+                form.model.value = model;
+                form.department.value = department_id;
+                department_change(form.department, room_id);
+
+                toggleModalNew();
+            }
+
+            function ask_for_remove(device_id) {
+                document.querySelector('.id-to-delete').value = device_id;
+                toggleModalRemove();
+            }
+            
+            document.querySelector('.btn-remove').addEventListener('click', () => {
+                remove(document.querySelector('.id-to-delete').value);
+            });
+
+            function remove(id) {
+                $.ajax({
+                    url: '/load/remove_device',
+                    type: 'POST',
+                    headers: {
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                    },
+                    data: {
+                        id
+                    },
+                    success: function(data) {
+                        load_devices();
+                        toggleModalRemove();
+                        showToast("Dispositivo removido com sucesso!");
+                    }
+                });
+            }
+
+            function department_change(element, room_id) {
+                $.ajax({
+                    url: '/load/load_rooms',
+                    type: 'GET',
+                    data: {
+                        department_id: element.value
+                    },
+                    success: function(data) {
+                        document.querySelector('.room').innerHTML = data;
+                        if (room_id) {
+                            document.querySelector('.room').value = room_id;
+                        }
+                    }
+                });
+            }
+
+            function toggleModalNew() {
+                let list = document.querySelector('.modal.new').classList;
+                if (list.contains('show')) {
+                    list.remove('show');
+                    document.querySelector('#form').id.value = '';
+                    document.querySelector('#form').reset();
+                } else
+                    list.add('show');
+            }
+
+            document.querySelector('.modal.new').addEventListener('click', () => {
+                toggleModalNew();
+            });
+
+            function toggleModalRemove() {
+                let list = document.querySelector('.modal.remove').classList;
                 if (list.contains('show'))
                     list.remove('show');
                 else
                     list.add('show');
             }
 
-            document.querySelector('.modal').addEventListener('click', () => {
-                toggleModal();
+            document.querySelector('.modal.remove').addEventListener('click', () => {
+                toggleModalRemove();
             });
 
-            document.querySelector('.modal>*').addEventListener('click', (e) => {
+            document.querySelector('.modal.new>*').addEventListener('click', (e) => {
                 event.stopPropagation();
             });
+
+            document.querySelector('.modal.remove>*').addEventListener('click', (e) => {
+                event.stopPropagation();
+            });
+
+            function showToast(text) {
+                var toast = document.querySelector("#toast");
+                toast.className = "show";
+                toast.innerHTML = text;
+                setTimeout(function(){ 
+                    toast.className = toast.className.replace("show", ""); 
+                }, 3000);
+            }
         </script>
     </body>
 </html>

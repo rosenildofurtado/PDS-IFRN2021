@@ -1,0 +1,279 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    outline: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--background-color);
+}
+
+button, input[type=submit] {
+    border: none;
+    outline: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: .2s;
+    background-color: #468EFA;
+    color: white;
+    font-size: 16px;
+    box-shadow: var(--box-shadow);
+}
+
+button:hover, input[type=submit]:hover {
+    background-color: #2b6fd6;
+}
+
+input, select {
+    background-color: var(--white);
+    box-shadow: var(--box-shadow);
+    padding: 12px;
+    border: none;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+/* MODAL */
+
+.modal.show {
+    display: flex;
+    animation: fadein .2s ease-in-out;
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 1);
+    z-index: 1500;
+}
+
+.modal-container {
+    width: 600px;
+    background-color: var(--background-color);
+    border-radius: 5px;
+    padding: 30px;
+}
+
+.modal-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.modal-header i {
+    width: 25px;
+    height: 25px;
+    color: var(--primary-color);
+    border-radius: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 20px;
+    transition: .2s;
+}
+
+.modal-header i:hover {
+    background-color: var(--white);
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-bottom: 10px;
+}
+
+.modal-form label, .modal-footer label  {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    color: #555;
+}
+
+.modal-row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.modal-row > label {
+    margin-bottom: 5px;
+}
+
+.modal-row > label > p {
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.modal-row label:first-child {
+    margin-right: 5px;
+}
+
+.modal-row label:last-child {
+    margin-left: 5px;
+}
+
+.modal-row label:only-child {
+    margin: 0;
+}
+
+.modal-footer > label {
+    width: auto;
+}
+
+.modal-form label:nth-child(1) input {
+    width: 100%;
+}
+
+.modal-header > h3, .modal-header > h2 {
+    color: #468EFA;
+}
+
+.modal-footer {
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.modal-footer button:first-child {
+    margin-right: 5px;
+}
+
+.modal-footer button:last-child {
+    margin-left: 5px;
+}
+
+.modal-footer button:only-child {
+    margin: 0;
+}
+
+/* POPOVER */
+
+.popover {
+    position: relative;
+    width: 25px;
+    height: 30px;
+}
+
+.popover > i {
+    width: 25px;
+    height: 30px;
+    color: var(--primary-color);
+    border-radius: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.popover > i:hover {
+    background-color: var(--background-color);
+}
+
+.popover:hover .popover-content {
+    opacity: 1;
+    visibility: visible;
+}
+
+.popover-content {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    top: 30px;
+    right: 0;
+    box-shadow: var(--box-shadow);
+    background-color: var(--white);
+    padding: 7px 0;
+    border-radius: 5px;
+    overflow: hidden;
+    z-index: 1000;
+}
+
+.popover-content > button {
+    width: 100%;
+    color: var(--primary-color);
+    background-color: var(--white);
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.popover-content > button:hover {
+    background-color: var(--background-color);
+}
+
+button.danger {
+    color: var(--danger-color);
+}
+
+/* TOAST */
+
+#toast {
+    min-width: 250px;
+    visibility: hidden;
+    color: #fff;
+    background-color: var(--success-color);
+    text-align: center;
+    border-radius: 3px;
+    padding: 16px;
+    position: fixed;
+    z-index: 2000;
+    right: 50px;
+    bottom: 50px;
+    font-size: 17px;
+}
+  
+#toast.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+  
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;} 
+    to {bottom: 50px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 50px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {bottom: 50px; opacity: 1;} 
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {bottom: 50px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}

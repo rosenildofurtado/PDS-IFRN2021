@@ -7,367 +7,154 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
         {% load static %}
-        <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
-        <style>
-            * {
-                padding: 0;
-                margin: 0;
-                box-sizing: border-box;
-                outline: 0;
-                font-family: 'Roboto', sans-serif;
-            }
-
-            body {
-                display: flex;
-                flex-direction: row;
-                width: 100vw;
-                height: 100vh;
-            }
-
-            .sidebar {
-                height: 100%;
-                width: 250px;
-                background: #FEFBFF;
-                box-shadow: 0px 4px 20px rgba(70, 142, 250, 0.3);
-                border-top-right-radius: 20px;
-                border-bottom-right-radius: 20px;
-                flex: none;
-
-                display: flex;
-                flex-direction: column;
-                justify-content: flex-start;
-            }
-
-            .sidebar-header {
-                display: flex;
-                flex-direction: column;
-                justify-content: flex-start;
-                align-items: center;
-                padding: 40px 0;
-            }
-
-            .sidebar-header img {
-                width: 108px;
-                height: 108px;
-                border-radius: 100%;
-                margin-bottom: 10px;
-            }
-
-            .sidebar-header h1 {
-                color: #262626;
-            }
-
-            .sidebar-header p {
-                color: #555555;
-            }
-
-            .sidebar-menu {
-                padding: 0 20px;
-            }
-
-            .sidebar-menu > p {
-                font-size: 14px;
-                color: #A8A8A8;
-                margin-bottom: 10px;
-            }
-
-            .sidebar-menu-item {
-                padding: 10px;
-                border-radius: 5px;
-                transition: .2s;
-                color: #00255C;
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                text-decoration: none;
-            }
-
-            .sidebar-menu-item-icon {
-                width: 20px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin-right: 10px;
-            }
-
-            .sidebar-menu-item:hover {
-                cursor: pointer;
-                background-color: #E0EDFF;
-            }
-
-            .sidebar-menu-item.selected {
-                background-color: #468EFA;
-                color: white;
-            }
-
-            .content {
-                width: 100%;
-                height: 100%;
-                padding: 50px;
-                display: flex;
-                flex-direction: column;
-                overflow: auto;
-            }
-
-            button {
-                border: none;
-                outline: none;
-                padding: 10px 20px;
-                cursor: pointer;
-                border-radius: 3px;
-                transition: .2s;
-                background-color: #468EFA;
-                color: white;
-                font-size: 16px;
-            }
-
-            .card-container{
-                margin-top: 30px;
-                display: flex;
-                flex-wrap: wrap;
-                width: 100%;
-            }
-
-            .card{
-                width: 23rem;
-                height: 10rem;    
-                border: 1px solid black;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                padding: 10px;
-            }
-
-            .type{
-                font-weight: 500;
-                color: #468EFA;
-                border: 1px solid #468EFA;
-                background-color: rgba(70, 142, 250, .3);
-                padding: 2px 10px;
-                font-size: 10px;
-                margin-right: 10px;
-                border-radius: 3px;
-            }
-
-            .close {
-                cursor: pointer;
-            }
-
-            .modal.show {
-                display: flex;
-            }
-
-            .modal {
-                width: 100vw;
-                height: 100vh;
-                position: absolute;
-                top: 0;
-                left: 0;
-                display: none;
-                justify-content: center;
-                align-items: center;
-                background-color: rgba(0, 0, 0, 0.5);
-                box-shadow: 0px 2px 5px rgba(0, 0, 0, 1);
-            }
-
-            .modal-container {
-                width: 600px;
-                background-color: #FFF;
-                border-radius: 5px;
-                padding: 20px;
-            }
-
-            .modal.show .modal-container {
-                animation: scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
-            }
-
-            .modal-header {
-                width: 100%;
-                display: flex;
-                justify-content: space-between;
-                margin-bottom: 20px;
-            }
-
-            .modal-content {
-                display: flex;
-                flex-direction: column;
-            }
-
-            .modal-form {
-                display: flex;
-                flex-direction: column;
-                align-items: flex-end;
-                margin-bottom: 10px;
-            }
-
-            .modal-form label, .modal-footer label  {
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                color: #555;
-            }
-
-            .modal-row {
-                width: 100%;
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                margin-top: 10px;
-            }
-
-            .modal-row label:first-child {
-                margin-right: 5px;
-            }
-
-            .modal-row label:last-child {
-                margin-left: 5px;
-            }
-
-            .modal-footer > label {
-                width: auto;
-            }
-
-            .modal-form label:nth-child(1) input {
-                width: 100%;
-            }
-
-            .modal-header > h3 {
-                color: #468EFA;
-            }
-
-            .modal-footer {
-                width: 100%;
-                margin-top: 10px;
-                display: flex;
-                justify-content: flex-end;
-                align-items: flex-end;
-            }
-
-            
-        </style>
+        <link href="{% static 'smhapp/variables.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'smhapp/main.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'smhapp/table.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'smhapp/sidebar.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'smhapp/pages/deviceTypes.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
     </head>
     <body>
-        <div class="sidebar">
-            <div class="sidebar-header">
-                <img src="https://static.wikia.nocookie.net/avatar/images/c/ce/Aang.png/revision/latest/smart/width/250/height/250?cb=20161129194603&path-prefix=pt-br" />
-                <h3>Aria Siqueira</h3>
-                <p>DTI - Central</p>
-            </div>
-            <div class="sidebar-menu">
-                <p>Menu</p>
-                <a class="sidebar-menu-item" href="/dashboard">
-                    <div class="sidebar-menu-item-icon">
-                        <i class="fa-solid fa-chart-line"></i>
-                    </div>
-                    <p>Dashboard</p>
-                </a>
-                <a class="sidebar-menu-item" href="/devices">
-                    <div class="sidebar-menu-item-icon">
-                        <i class="fa-solid fa-laptop"></i>
-                    </div>
-                    <p>Dispositivos</p>
-                </a>
-                <a class="sidebar-menu-item selected" href="/devicetypes">
-                    <div class="sidebar-menu-item-icon">
-                        <i class="fa-solid fa-server"></i>
-                    </div>
-                    <p>Tipos de Dispositivos</p>
-                </a>
-                <a class="sidebar-menu-item" href="/users">
-                    <div class="sidebar-menu-item-icon">
-                        <i class="fa-solid fa-users"></i>
-                    </div>
-                    <p>Usuários</p>
-                </a>
-                <a class="sidebar-menu-item" href="/departments">
-                    <div class="sidebar-menu-item-icon">
-                        <i class="fa-solid fa-building"></i>
-                    </div>
-                    <p>Setores</p>
-                </a>
-            </div>
-        </div>
+        {% include "smhapp/includes/sidebar.html" with path=request.path %}
         <div class="content">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="content-header">
                 <h2>Tipos de Dispositivo</h2>
-                <button onclick="toggleModal()">Cadastrar novo tipo</button>
+                <button onclick="toggleModalNew()">Novo Tipo</button>
             </div>
-            <div class="card-container">
-                <div class="card">
-                    <div>
-                        <h2 style="font-weight: normal;">Computador</h2>
-                        <p>Microcomputador da mesa</p>
+            <div class="content-body">
+                <div class="cards">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Computador</h2>
+                            <p>Microcomputador da mesa</p>
+                        </div>
+                        <div class="card-footer">
+                            <p>Parametros de Medição</p>
+                            <div>
+                                <p class="type">CPU</p>
+                                <p class="type">RAM</p>
+                                <p class="type">Disco</p>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <p>Parametros de Medição</p>
-                        <div style="display: flex;">
-                            <p class="type">CPU</p>
-                            <p class="type">RAM</p>
-                            <p class="type">Disco</p>
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Computador</h2>
+                            <p>Microcomputador da mesa</p>
+                        </div>
+                        <div class="card-footer">
+                            <p>Parametros de Medição</p>
+                            <div>
+                                <p class="type">CPU</p>
+                                <p class="type">RAM</p>
+                                <p class="type">Disco</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Computador</h2>
+                            <p>Microcomputador da mesa</p>
+                        </div>
+                        <div class="card-footer">
+                            <p>Parametros de Medição</p>
+                            <div>
+                                <p class="type">CPU</p>
+                                <p class="type">RAM</p>
+                                <p class="type">Disco</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Computador</h2>
+                            <p>Microcomputador da mesa</p>
+                        </div>
+                        <div class="card-footer">
+                            <p>Parametros de Medição</p>
+                            <div>
+                                <p class="type">CPU</p>
+                                <p class="type">RAM</p>
+                                <p class="type">Disco</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="modal" onclick="return false">
+        <div class="modal new" onclick="return false">
             <div class="modal-container">
                 <div class="modal-header">
-                    <h3>Novo Dispositivo</h3>
-                    <p class="close" onclick="toggleModal()">X</p>
+                    <h3>Novo Tipo de Dispositivo</h3>
+                    <p class="close" onclick="toggleModalNew()">
+                        <i class="fa-solid fa-times"></i>
+                    </p>
                 </div>
-                <div class="modal-content">
-                    <div class="modal-form">
-                        <div class="modal-row">
-                            <label>
-                                Nome
-                                <input type="text" placeholder="Ex.: PC01 - Assisão">
-                            </label>
-                            <label>
-                                Ícone
-                                <select>
-                                    <option value="">Computador</option>
-                                    <option value="">Tablet</option>
-                                    <option value="">Switch</option>
-                                </select>
-                            </label>
+                {% if formP.is_multipart %}
+                    <form enctype="multipart/form-data" method="post" action="{% url 'smhapp:arquivoParametros'%}">
+                {% else %}
+                    <form method="post" action="{% url 'smhapp:arquivoParametros'%}">    <p>babou</p>
+                {% endif %}
+                {% csrf_token %}
+                    <div class="modal-content">
+                        <div class="modal-form">
+                        
+                            <div class="modal-row">
+                                <label>
+                                    <p>Nome</p>
+                                    <input type="text" name="name" placeholder="Ex.: Computador">
+                                </label>
+                                <label>
+                                    <p>Ícone</p>
+                                    <select>
+                                        <option value="">Computador</option>
+                                        <option value="">Tablet</option>
+                                        <option value="">Switch</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div class="modal-row">
+                                <label>
+                                    <p>Descrição</p>
+                                    <input type="text" name ="decription" placeholder="Breve descrição...">
+                                </label>
+                            </div>
+                            <div class="modal-row" style="margin-top: 20px">
+                                <label>
+                                    <p>Importar o arquivo de parâmetros</p>
+                                    <div style="display: flex; ">
+                                        {{formP}}
+                                        
+                                        <!--<input type="text" readonly ><button style="margin-left: 15px; padding: 5px 10px;" onclick="document.getElementById('fileInput').click();">...</button>-->
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="modal-footer">
+                                <input class="btn-submit" type="submit" value="Cadastrar"></input>
+                            </div>
                         </div>
-                        <div class="modal-row">
-                            <label>
-                                Descrição
-                                <input type="text" placeholder="Breve descrição...">
-                            </label>
-                        </div>
-                        <div class="modal-row" style="margin-top: 20px">
-                            <label>
-                                Importar o arquivo de parâmetros
-                                <div style="display: flex; ">
-                                    <input type="text" readonly ><button style="margin-left: 15px; padding: 5px 10px;" onclick="document.getElementById('fileInput').click();">...</button>
-                                </div>
-                            </label>
-                        </div>
+                        
                     </div>
-                    <div class="modal-footer">
-                        <button>Cadastrar</button>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
-        <input id="fileInput" type="file" style="display:none;" />
+        
+        <input id="cadastroParametros" type="submit" style="display:none;" >
         <script>
-            function toggleModal() {
-                let list = document.querySelector('.modal').classList;
+            function toggleModalNew() {
+                let list = document.querySelector('.modal.new').classList;
                 if (list.contains('show'))
                     list.remove('show');
                 else
                     list.add('show');
             }
 
-            document.querySelector('.modal').addEventListener('click', () => {
-                toggleModal();
+            document.querySelector('.modal.new').addEventListener('click', () => {
+                toggleModalNew();
             });
 
-            document.querySelector('.modal>*').addEventListener('click', (e) => {
+            document.querySelector('.modal.new>*').addEventListener('click', (e) => {
                 event.stopPropagation();
             });
         </script>

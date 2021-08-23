@@ -1,0 +1,27 @@
+{% for device in devices %}
+<div class="card">
+    <div class="card-header">
+        <div class="title-box">
+            <h2>{{ device.name }}</h2>
+            <p>{{ device.model }}</p>
+        </div>
+        <div class="popover">
+            <i class="fa-solid fa-ellipsis-v"></i>
+            <div class="popover-content">
+                <button onclick="edit_device('{{ device.id }}', '{{ device.name }}', '{{ device.deviceType.id }}', '{{ device.model }}', '{{ device.room.department.id }}', '{{ device.room_id }}')">Editar</button>
+                <button class="btn-remove danger" onclick="ask_for_remove('{{ device.id }}')">Excluir</button>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="item">
+            <i class="fa-solid fa-building"></i>
+            <p>{{ device.room.department }} | {{ device.room }} </p>
+        </div>
+        <div class="item">
+            <i class="fa-solid fa-server"></i>
+            <p>{{ device.deviceType }}</p>
+        </div>
+    </div>
+</div>
+{% endfor %}
