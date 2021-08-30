@@ -1,0 +1,15 @@
+{% for room in rooms %}
+    <tr> 
+        <td><a href="#">{{ room.shortName }}</a></td>
+        <td>{{ room.description }}</td>
+            <td>
+                <div class="popover">
+                    <i class="fa-solid fa-ellipsis-v"></i>
+                    <div class="popover-content">
+                        <button onclick="edit_room('{{ room.id }}', '{{ room.name }}', '{{ room.shortName }}', '{{ room.description }}')">Editar</button>
+                        <button class="btn-remove danger" onclick="ask_for_remove('{{ room.id }}')">Excluir</button>
+                    </div>
+                </div>
+            </td>
+    </tr>
+{% endfor %}

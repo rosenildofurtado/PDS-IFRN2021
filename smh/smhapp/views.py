@@ -1,7 +1,7 @@
 import json
 from json import load
-from typing import ValuesView
 from django.utils import timezone
+from django.db import connections
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse, response, HttpResponseRedirect
 from django.template import loader
@@ -12,9 +12,13 @@ from os.path import dirname, isfile, realpath
 from .models import *
 
 def index(request):
-    #response = "<a href='/dashboard'>Dashboard</a></br><a href='/devices'>Devices</a></br><a href='/devicetypes'>Device Types</a></br><a href='/departments'>Departments</a></br><a href='/measurements'>Measurements</a>"
-    context = {"teste" : "teste"}
+    context = {}
     template = loader.get_template('smhapp/index.html')
+    return HttpResponse(template.render(context, request))
+
+def login(request):
+    context = {}
+    template = loader.get_template('smhapp/login.html')
     return HttpResponse(template.render(context, request))
 
 def dashboard(request):
@@ -42,12 +46,17 @@ def devicetypes(request):
     return HttpResponse(template.render(context, request))
 
 def departments(request):
-    context = {}
+    departments = Department.objects.all()
+
+    context = {
+        "departments": departments, 
+    }
     template = loader.get_template('smhapp/departments.html')
     return HttpResponse(template.render(context, request))
 
-def rooms(request):
-    context = {}
+def rooms(request, id):
+    print(id)
+    context = {"department_id": id}
     template = loader.get_template('smhapp/rooms.html')
     return HttpResponse(template.render(context, request))
 
@@ -55,6 +64,22 @@ def users(request):
     context = {}
     template = loader.get_template('smhapp/users.html')
     return HttpResponse(template.render(context, request))
+
+def load_departments(request):
+    departments = Department.objects.all()
+
+    context = {
+        "departments": departments
+    }
+    template = loader.get_template('smhapp/loads/load_departments.html')
+    return HttpResponse(template.render(context, request));
+
+def load_room_cards(request):
+    department_id = request.GET.get('department_id')
+    rooms = Room.objects.filter(department_id=department_id)
+    context = {"rooms": rooms}
+    template = loader.get_template('smhapp/loads/load_room_cards.html')
+    return HttpResponse(template.render(context, request));    
 
 def load_rooms(request):
     department_id = request.GET.get('department_id')
@@ -99,26 +124,74 @@ def edit_device(request):
     
     return HttpResponse(200)
 
+def create_department(request):
+    name = request.POST.get('name')
+    shortName = request.POST.get('shortName')
+    description = request.POST.get('description')
+
+    department = Department(name=name, shortName=shortName, description=description)
+    department.save()
+    return HttpResponse(200)
+
+def edit_department(request):
+    department = Department.objects.get(id=request.POST.get('id'))
+    department.name = request.POST.get('name')
+    department.shortName = request.POST.get('shortName')
+    department.description = request.POST.get('description')
+    department.save()
+    
+    return HttpResponse(200)
+
+def remove_department(request):
+    department = Department.objects.get(id=request.POST.get('id'))
+    department.delete()
+    
+    return HttpResponse(200)
+
+def create_room(request):
+    name = request.POST.get('name')
+    shortName = request.POST.get('shortName')
+    description = request.POST.get('description')
+
+    room = Room(name=name, shortName=shortName, description=description)
+    room.save()
+    return HttpResponse(200)
+
+def edit_room(request):
+    room = Room.objects.get(id=request.POST.get('id'))
+    room.name = request.POST.get('name')
+    room.shortName = request.POST.get('shortName')
+    room.description = request.POST.get('description')
+    room.save()
+    
+    return HttpResponse(200)
+
+def remove_room(request):
+    room = Room.objects.get(id=request.POST.get('id'))
+    room.delete()
+    
+    return HttpResponse(200)
+
 def ArquivoMedicaoView(request):
     if request.method == 'POST':
-        date = timezone.now()
+        
         forma = UploadFileForm(request.POST, request.FILES)
         if forma.is_valid():
             for chunk in request.FILES['file'].chunks():
                 f = json.loads(chunk)
+        date = timezone.now()
         selecionada = Device.objects.get(code = f['dispositivo'])
         medicao = Measurement(date=date, device=selecionada)
         medicao.save()
+        values = []
         for key, v in f.items():
-            if type(v) == type(1.0):
-                value = MeasurementValue(value=v, measurement = medicao, parameter = Parameter.objects.get(code = key))
-            else:
-                value = MeasurementValue(config=v, measurement = medicao, parameter = Parameter.objects.get(code = key))
+            value = MeasurementValue(value=v, measurement = medicao, parameter = Parameter.objects.get(code = key))
             value.save()
-        #enviar = Measurement.objects.get(device=selecionada)
+            values.append(value)
+        
     else:
         forma = UploadFileForm()
-    return render(request, 'smhapp/dashboard.html', {'medicao': medicao, 'valores': f})
+    return render(request, 'smhapp/deviceDetails.html', {'medicao': medicao, 'valores': values})
 
 def NewDeviceType(request):
     if request.method == 'POST':

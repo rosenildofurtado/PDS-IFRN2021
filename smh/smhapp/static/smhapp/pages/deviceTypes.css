@@ -71,6 +71,15 @@
     border-radius: 3px;
 }
 
+.detail-title {
+    font-weight: 500;
+    font-size: 20px;
+}
+
 .close {
     cursor: pointer;
+}
+
+.details {
+    color: black;
 }

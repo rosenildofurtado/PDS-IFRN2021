@@ -1,0 +1,33 @@
+body {
+    background-image: url("../../smhapp/imgs/bg-login.png");
+    background-size: cover;
+    background-position: 100% 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+body > p {
+    color: #b9b9b9;
+}
+
+body > h1 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+body > input {
+    width: 250px;
+    margin-top: 10px;
+}
+
+body > a {
+    margin-top: 15px;
+    width: 250px;
+}
+
+body > a > button {
+    width: 100%;
+    font-weight: bold;
+}

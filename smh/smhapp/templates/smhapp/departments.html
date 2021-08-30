@@ -13,9 +13,11 @@
         <link href="{% static 'smhapp/sidebar.css' %}" rel="stylesheet" type="text/css">
         <link href="{% static 'smhapp/pages/departments.css' %}" rel="stylesheet" type="text/css">
         <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     </head>
     <body>
         {% include "smhapp/includes/sidebar.html" with path=request.path %}
+        <div id="toast">Setor cadastrado com sucesso!</div>
         <div class="content">
             <div class="content-header">
                 <h2>Setores</h2>
@@ -35,70 +37,74 @@
                     <tr> 
                         <th>Nome</th>
                         <th>Descrição</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr> 
-                        <td><a href="rooms">DIATINF</a></td>
-                        <td>Diretoria de Informártica</td>
-                    </tr>
-                    <tr>
-                        <td>Nome2</td>
-                        <td>Descrição2</td>
-                    </tr>
-                    <tr>
-                        <td>Nome3</td>
-                        <td>Descrição3</td>
-                    </tr>
-                    <tr>
-                        <td>Nome4</td>
-                        <td>Descrição4</td>
-                    </tr>
-                    <tr>
-                        <td>Nome5</td>
-                        <td>Descrição5</td>
-                    </tr>
-                    <tr>
-                        <td>Nome6</td>
-                        <td>Descrição6</td>
-                    </tr>
-                </tbody>
+                <tbody class="setores"></tbody>
             </table>
         </div>
         
+        <div class="modal remove">
+            <div class="modal-container" style="width: 500px">
+                <div class="modal-header">
+                    <h2>Excluir Setor</h2>
+                </div>
+                <div class="modal-content">
+                    <input class="id-to-delete" type="hidden">
+                    <p class="delete-msg">Você deseja realmente excluir este setor? Ele não poderá ser recuperado.</p>
+                </div>
+                <div class="modal-footer">
+                    <button onclick="toggleModalRemove()">Cancelar</button>
+                    <button class="btn-remove danger">Excluir</button>
+                </div>
+            </div>
+        </div>
+
         <div class="modal new" onclick="return false">
             <div class="modal-container">
                 <div class="modal-header">
-                    <h3>Cadastrar Setor</h3>
+                    <h3 class="modal-title">Cadastrar Setor</h3>
                     <p class="close" onclick="toggleModalNew()">
                         <i class="fa-solid fa-times"></i>
                     </p>
                 </div>
                 <div class="modal-content">
-                    <div class="modal-form">
+                    <form id="form" onsubmit="create(this); return false" class="modal-form"> {% csrf_token %}
+                        <input name="id" type="hidden" value="">
                         <div class="modal-row">
                             <label>
-                                <p>Nome</p>
-                                <input type="text" placeholder="Ex.: DIATINF">
+                                <p>Sigla</p>
+                                <input name="shortName" type="text" placeholder="Ex.: DIATINF">
                             </label>
                             <label class="descricao">
-                                <p>Descrição</p>
-                                <input type="text" placeholder="Ex.: Diretoria de Informática">
+                                <p>Nome</p>
+                                <input name="name" type="text" placeholder="Ex.: Diretoria de Informática">
                             </label>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button>Cadastrar</button>
-                    </div>
+                        <div class="modal-row">
+                            <label class="descricao">
+                                <p>Descrição</p>
+                                <input name="description" type="text">
+                            </label>
+                        </div>
+                        <div class="modal-footer">
+                            <input class="btn-submit" type="submit" value="Cadastrar"></input>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
         <script>
+            (function init(){
+                load_departments();
+            }());
             function toggleModalNew() {
                 let list = document.querySelector('.modal.new').classList;
-                if (list.contains('show'))
+                if (list.contains('show')) {
                     list.remove('show');
-                else
+                    document.querySelector('#form').id.value = '';
+                    document.querySelector('#form').reset();
+                } else
                     list.add('show');
             }
 
@@ -107,6 +113,148 @@
             });
 
             document.querySelector('.modal.new>*').addEventListener('click', (e) => {
+                event.stopPropagation();
+            });
+
+            function create(form) {
+                var id = form.id.value;
+                var name = form.name.value;
+                var shortName = form.shortName.value;
+                var description = form.description.value;
+
+
+                if (!name || !shortName || !description ) {
+                    showToast("Preencha todos os campos corretamente!");
+                } else {
+                    if (id) {
+                        $.ajax({
+                            url: '/load/edit_department',
+                            type: 'POST',
+                            headers: {
+                                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                            },
+                            data: {
+                                id,
+                                name,
+                                shortName,
+                                description
+                            },
+                            success: function(data) {
+                                showToast("Setor editado com sucesso!");
+                                toggleModalNew();
+                                load_departments();
+
+                                form.elements.id = '';
+                                form.reset();
+                            }
+                        });
+                    } else{
+                        $.ajax({
+                            url: '/load/create_department',
+                            type: 'POST',
+                            headers: {
+                                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                            },
+                            data: {
+                                name,
+                                shortName,
+                                description
+                            },
+                            success: function(data) {
+                                showToast("Setor cadastrado com sucesso!");
+                                toggleModalNew();
+                                load_departments();
+
+                                form.reset();
+                            }
+                        });
+                    }
+                }
+            }
+
+            function ask_for_remove(department_id) {
+                document.querySelector('.id-to-delete').value = department_id;
+                toggleModalRemove();
+            }
+            
+            document.querySelector('.btn-remove').addEventListener('click', () => {
+                remove(document.querySelector('.id-to-delete').value);
+            });
+
+            function remove(id) {
+                $.ajax({
+                    url: '/load/remove_department',
+                    type: 'POST',
+                    headers: {
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                    },
+                    data: {
+                        id
+                    },
+                    success: function(data) {
+                        load_departments();
+                        toggleModalRemove();
+                        showToast("Setor removido com sucesso!");
+                    }, error: function(XMLHttpRequest, textStatus, errorThrown) {
+                        console.log(errorThrown);
+                    }
+                });
+            }
+
+            function edit_department(id, name, shortName, description) {
+                document.querySelector('.modal-title').innerHTML = "Editar Setor";
+                document.querySelector('.btn-submit').value = "Salvar";
+                let form = document.querySelector('#form');
+
+                form.id.value = id;
+                form.name.value = name;
+                form.shortName.value = shortName;
+                form.description.value = description;
+                // department_change(form.department, room_id);
+
+                toggleModalNew();
+            }
+
+            function showToast(text) {
+                var toast = document.querySelector("#toast");
+                toast.className = "show";
+                toast.innerHTML = text;
+                setTimeout(function(){ 
+                    toast.className = toast.className.replace("show", ""); 
+                }, 3000);
+            }
+
+            function load_departments() {
+                $.ajax({
+                    url: '/load/load_departments',
+                    type: 'GET',
+                    success: function(data) {
+                        if (data.length == 0) {
+                            data = "<div class='no-device-container'><img class='no-device-img' src='{% static 'smhapp/imgs/404.svg' %}' alt='Nenhum setor cadastrado'><h2>Nenhum setor encontrado</h2><p>Clique no botão 'Novo Setor' acima para cadastrar um setor!</p></div>";
+                        }
+
+                        document.querySelector('.setores').innerHTML = data;
+                    }
+                });
+            }
+
+            function toggleModalRemove() {
+                let list = document.querySelector('.modal.remove').classList;
+                if (list.contains('show'))
+                    list.remove('show');
+                else
+                    list.add('show');
+            }
+
+            document.querySelector('.modal.remove').addEventListener('click', () => {
+                toggleModalRemove();
+            });
+
+            document.querySelector('.modal.new>*').addEventListener('click', (e) => {
+                event.stopPropagation();
+            });
+
+            document.querySelector('.modal.remove>*').addEventListener('click', (e) => {
                 event.stopPropagation();
             });
         </script>

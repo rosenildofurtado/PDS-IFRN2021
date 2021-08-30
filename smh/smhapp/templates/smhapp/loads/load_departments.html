@@ -1,0 +1,15 @@
+{% for department in departments %}
+    <tr> 
+        <td><a href="{{department.id}}/rooms">{{ department }}</a></td>
+        <td>{{ department.description }}</td>
+        <td style="width: 100px;">
+            <div class="popover">
+                <i class="fa-solid fa-ellipsis-v"></i>
+                <div class="popover-content">
+                    <button onclick="edit_department('{{ department.id }}', '{{ department.name }}', '{{ department.shortName }}', '{{ department.description }}')">Editar</button>
+                    <button class="btn-remove danger" onclick="ask_for_remove('{{ department.id }}')">Excluir</button>
+                </div>
+            </div>
+        </td>
+    </tr>
+{% endfor %}

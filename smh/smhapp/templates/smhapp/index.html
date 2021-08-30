@@ -2,13 +2,192 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Minha página de teste</title>
+        <title>Sistema de Monitoramento</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link href="https://fonts.googleapis.com/css2?family=Palanquin+Dark:wght@400;500;600;700&display=swap" rel="stylesheet"> 
+		<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700;900&display=swap" rel="stylesheet"> 
+        {% load static %}
+        <link href="{% static 'smhapp/variables.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'smhapp/main.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'smhapp/pages/index.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
     </head>
     <body>
-        <a href='/dashboard'>Dashboard</a></br>
-        <a href='/devices'>Devices</a></br>
-        <a href='/devicetypes'>Device Types</a></br>
-        <a href='/departments'>Departments</a></br>
-        <a href='/users'>Users</a>
+		<div class="wrapper">
+			<div class="header">
+                <div class="menu-nav">
+                    <div class="menu-logo">
+                        <p>SMH</p>
+                    </div>
+                    <div class="menu-options">
+                        <p>Início</p>
+                        <p>Funcionalidades</p>
+                        <p>Equipe</p>
+						<a href="/login">
+							<p>Fazer Login</p>
+						</a>
+                    </div>
+                </div>
+				<div class="menu-content">
+                    <div class="menu-content-info">
+                        <p class="info-title">Sistema de Monitoramento</p>
+                        <p class="info-subtitle">Monitore os dispositivos da sua empresa com o SMH, um sistema que previne e agiliza problemas.</p>
+                    </div>
+                    <img alt="Telas do Aplicativo" src="{% static 'smhapp/imgs/sync.svg' %}" />
+				</div>
+				<div class="menu-bottom">
+                    <i class="fa-solid fa-chevron-down"></i>
+				</div>
+			</div>
+			<div class="functionalities">
+				<div class="functionalities-title">
+					<p class="title">Funcionalidades</p>
+					<p class="subtitle">Visão geral de todas funções encontradas em nosso sistema.</p>
+				</div>
+				<div class="functionalities-container">
+					<div class="card">
+						<i class="fa-solid fa-chart-line"></i>
+						<p class="card-title">Dashboard</p>
+						<p class="card-subtitle">Visualização em tempo real dos dispositivos</p>
+					</div>
+					<div class="card">
+						<i class="fa-solid fa-users"></i>
+						<p class="card-title">Dispositivos</p>
+						<p class="card-subtitle">Cadastre qualquer tipo de dispositivos</p>
+					</div>
+					<div class="card">
+						<i class="fa-solid fa-building"></i>
+						<p class="card-title">Setores e Salas</p>
+						<p class="card-subtitle">Gerenciamento de Setores e Salas</p>
+					</div>
+					<div class="card">
+						<i class="fa-solid fa-users"></i>
+						<p class="card-title">Usuários</p>
+						<p class="card-subtitle">Controle de usuários da sua instituição</p>
+					</div>
+				</div>
+			</div>
+			<div class="benefits">
+				<div class="benefits-container">
+					<p class="benefits-title">Vantagens</p>
+					<p class="benefits-subtile">Veja o que temos de melhor para oferecer no nosso sistema.</p>
+					<div class="benefits-grid">
+						<div class="horizontal-card">
+							<div class="horizontal-card-icon">
+								<i class="fa-solid fa-desktop"></i>
+							</div>
+							<div class="horizontal-card-info">
+								<Text class="horizontal-card-info-title">Dashboard</Text>
+								<Text class="horizontal-card-info-text">Monitoramento completo dos seus dispositivos com indicativos de alarmes.</Text>
+							</div>
+						</div>
+
+						<div class="horizontal-card">
+							<div class="horizontal-card-icon">
+								<i class="fa-solid fa-chart-line"></i>
+							</div>
+							<div class="horizontal-card-info">
+								<Text class="horizontal-card-info-title">Gráficos</Text>
+								<Text class="horizontal-card-info-text">Gráficos completos para entendimento do uso dos dispositivos.</Text>
+							</div>
+						</div>
+
+						<div class="horizontal-card">
+							<div class="horizontal-card-icon">
+								<i class="fa-solid fa-rotate"></i>
+							</div>
+							<div class="horizontal-card-info">
+								<Text class="horizontal-card-info-title">Real Time</Text>
+								<Text class="horizontal-card-info-text">Tenha acesso as informações em tempo real dos equipamentos.</Text>
+							</div>
+						</div>
+
+						<div class="horizontal-card">
+							<div class="horizontal-card-icon">
+								<i class="fa-solid fa-gears"></i>
+							</div>
+							<div class="horizontal-card-info">
+								<Text class="horizontal-card-info-title">Customizável</Text>
+								<Text class="horizontal-card-info-text">Cadastre qualquer tipo de dispositivo no sistema.</Text>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="team">
+				<div class="team-title">
+					<p class="title">Equipe</p>
+					<p class="subtitle">O time responsável por esse projeto</p>
+				</div>
+				<div class="team-grid">
+					<div class="person-card">
+						<div class="person-card-img-container">
+							<img class="person-card-img" src="{% static 'smhapp/imgs/daniel.png' %}" />
+						</div>
+						<Text class="person-card-title">Daniel Victor</Text>
+						<Text class="person-card-subtitle">Desenvolvedor</Text>
+					</div>
+					<div class="person-card">
+						<div class="person-card-img-container">
+							<img class="person-card-img" src="{% static 'smhapp/imgs/fernando.png' %}" />
+						</div>
+						<Text class="person-card-title">Fernando Brüch</Text>
+						<Text class="person-card-subtitle">Desenvolvedor</Text>
+					</div>
+					<div class="person-card">
+						<div class="person-card-img-container">
+							<img class="person-card-img" src="{% static 'smhapp/imgs/luciano.png' %}" />
+						</div>
+						<Text class="person-card-title">Luciano Sizilio</Text>
+						<Text class="person-card-subtitle">Desenvolvedor</Text>
+					</div>
+					<div class="person-card">
+						<div class="person-card-img-container">
+							<img class="person-card-img" src="{% static 'smhapp/imgs/rosenildo.png' %}" />
+						</div>
+						<Text class="person-card-title">Rosenildo Pereira</Text>
+						<Text class="person-card-subtitle">Desenvolvedor</Text>
+					</div>
+					<div class="person-card">
+						<div class="person-card-img-container">
+							<img class="person-card-img" src="{% static 'smhapp/imgs/safyra.png' %}" />
+						</div>
+						<Text class="person-card-title">Safyra Gurgel</Text>
+						<Text class="person-card-subtitle">Desenvolvedor</Text>
+					</div>
+				</div>
+			</div>
+			<div class="footer">
+				<h3>SMH</h3>
+				<div class="footer-options">
+					<p>Início</p>
+					<p>Funcionalidades</p>
+					<p>Equipe</p>
+				</div>
+				<div class="footer-icons">
+					<a rel="noopener noreferrer" target="-blank">
+						<div class="footer-icon-container">
+                            <i class="fa-brands fa-instagram"></i>
+						</div>
+					</a>
+					<a rel="noopener noreferrer" target="-blank">
+						<div class="footer-icon-container">
+                            <i class="fa-brands fa-apple"></i>
+						</div>
+					</a>
+					<a rel="noopener noreferrer" target="-blank">
+						<div class="footer-icon-container">
+							<i class="fa-brands fa-google-play"></i>
+						</div>
+					</a>
+				</div>
+				<p>Copyright © 2021 SMH - Todos os direitos reservados</p>
+			</div>
+		</div>
     </body>
 </html>

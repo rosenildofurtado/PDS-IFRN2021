@@ -62,7 +62,7 @@ class Measurement(models.Model):
 class Parameter(models.Model):
     name = models.CharField(max_length=100)
     code = models.CharField(max_length=50)
-    text = models.BooleanField()
+    text = models.BooleanField(default=False)
     dangerUpAlarm = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     dangerDownAlarm = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     warningUpAlarm = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
