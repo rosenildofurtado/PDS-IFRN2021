@@ -13,6 +13,7 @@
         <link href="{% static 'smhapp/sidebar.css' %}" rel="stylesheet" type="text/css">
         <link href="{% static 'smhapp/pages/dashboard.css' %}" rel="stylesheet" type="text/css">
         <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     </head>
     <body>
         <div class="sidebar">
@@ -100,180 +101,39 @@
                     <label class="card-value">190</label>
                 </div>
             </div>
-            <table class="tb-monitoring">
-                <thead>
-                    <tr>
-                        <th>ID Maquina</th>
-                        <th>Setor</th>
-                        <th>Sala</th>
-                        <th>IP</th>
-                        <th>CPU</th>
-                        <th>RAM %</th>
-                        <th>Disco %</th>
-                        <th>Temp Cº</th>
-                        <th>UP</th>
-                        <th>DOWN</th>
-                        <th>T online</th>
-                        <th>etc</th>
-                      </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            M01
-                        </td>
-                        <td>
-                            DIATINF
-                        </td>
-                        <td>
-                            LAB 1
-                        </td>
-                        <td>
-                            10.0.5.102
-                        </td>
-                        <td>
-                            73
-                        </td>
-                        <td>
-                            52
-                        </td>
-                        <td>
-                            43
-                        </td>
-                        <td>
-                            53
-                        </td>
-                        <td>
-                            2.3
-                        </td>
-                        <td>
-                            38.5
-                        </td>
-                        <td>
-                            3:45:26
-                        </td>
-                        <td>
-                            etc
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            M01
-                        </td>
-                        <td>
-                            DIATINF
-                        </td>
-                        <td>
-                            LAB 1
-                        </td>
-                        <td>
-                            10.0.5.102
-                        </td>
-                        <td>
-                            73
-                        </td>
-                        <td>
-                            52
-                        </td>
-                        <td>
-                            43
-                        </td>
-                        <td>
-                            53
-                        </td>
-                        <td>
-                            2.3
-                        </td>
-                        <td>
-                            38.5
-                        </td>
-                        <td>
-                            3:45:26
-                        </td>
-                        <td>
-                            etc
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            M01
-                        </td>
-                        <td>
-                            DIATINF
-                        </td>
-                        <td>
-                            LAB 1
-                        </td>
-                        <td>
-                            10.0.5.102
-                        </td>
-                        <td>
-                            73
-                        </td>
-                        <td>
-                            52
-                        </td>
-                        <td>
-                            43
-                        </td>
-                        <td>
-                            53
-                        </td>
-                        <td>
-                            2.3
-                        </td>
-                        <td>
-                            38.5
-                        </td>
-                        <td>
-                            3:45:26
-                        </td>
-                        <td>
-                            etc
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            {{ medicao.device }}
-                        </td>
-                        <td>
-                            DIATINF
-                        </td>
-                        <td>
-                            LAB 1
-                        </td>
-                        <td>
-                            {{valores}}
-                        </td>
-                        <td>
-                            73
-                        </td>
-                        <td>
-                            52
-                        </td>
-                        <td>
-                            43
-                        </td>
-                        <td>
-                            53
-                        </td>
-                        <td>
-                            2.3
-                        </td>
-                        <td>
-                            38.5
-                        </td>
-                        <td>
-                            3:45:26
-                        </td>
-                        <td>
-                            etc
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <label>
+                <p>Tipo</p>
+                <select onchange="load_dashboard();" class="deviceType">
+                    {% for deviceType in deviceTypes %}
+                        <option value="{{ deviceType.id }}">{{ deviceType }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <div class="dashboardTable">
+            </div>
         </div>
         <script type="text/javascript">
+            (function init(){
+                load_dashboard();
+            }());
+
+            function load_dashboard() {
+                console.log(document.querySelector('.deviceType').value)
+                $.ajax({
+                    url: '/load/load_dashboard',
+                    type: 'GET',
+                    data: {
+                        deviceType_id: document.querySelector('.deviceType').value
+                    },
+                    success: function(data) {
+                        // if (data.length == 0) {
+                        //     data = "<div class='no-device-container'><img class='no-device-img' src='{% static 'smhapp/imgs/404.svg' %}' alt='Nenhum setor cadastrado'><h2>Nenhum setor encontrado</h2><p>Clique no botão 'Novo Setor' acima para cadastrar um setor!</p></div>";
+                        // }
+
+                        document.querySelector('.dashboardTable').innerHTML = data;
+                    }
+                });
+            }
             function openFile(){
                 document.getElementById("arq").click();
             }

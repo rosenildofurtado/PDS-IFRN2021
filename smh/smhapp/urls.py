@@ -17,7 +17,9 @@ urlpatterns = [
 
     path('arquivoMedicao/', views.ArquivoMedicaoView, name = 'arquivoMedicao'),
     path('arquivoParametros/', views.NewDeviceType, name = 'arquivoParametros'),
+    path('<int:id>/deviceDetails', views.deviceDetails, name = 'deviceDetails'),
 
+    path('load/load_dashboard', views.load_dashboard, name='load_dashboard'),
     path('load/load_rooms', views.load_rooms, name='load_rooms'),
     path('load/load_departments', views.load_departments, name='load_departments'),
     path('load/load_room_cards', views.load_room_cards, name='load_room_cards'),

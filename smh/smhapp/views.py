@@ -5,7 +5,7 @@ from django.db import connections
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse, response, HttpResponseRedirect
 from django.template import loader
-from .forms import UploadFileForm, ParametersFileForm
+from .forms import CorrentDeviceType, UploadFileForm, ParametersFileForm
 from django.conf import settings
 from os.path import dirname, isfile, realpath
 
@@ -23,9 +23,20 @@ def login(request):
 
 def dashboard(request):
     form = UploadFileForm()
-    context = {"form" : form}
+    devicetypes = DeviceType.objects.all()
+    
+    context = {
+        "form": form,
+        "deviceTypes": devicetypes
+    }
     template = loader.get_template('smhapp/dashboard.html')
     return HttpResponse(template.render(context, request))
+
+def deviceDetails(request, id):
+    medicao = Measurement.objects.filter(device = Device.objects.get(pk=id)).order_by('-pk')[0]
+    values = MeasurementValue.objects.filter(measurement=medicao)
+    return render(request, 'smhapp/deviceDetails.html', {'medicao': medicao, 'valores': values})
+   
 
 def devices(request):
     departments = Department.objects.all()
@@ -65,6 +76,17 @@ def users(request):
     template = loader.get_template('smhapp/users.html')
     return HttpResponse(template.render(context, request))
 
+def load_dashboard(request):
+    deviceType_id = request.GET.get('deviceType_id')
+    devices = Device.objects.filter(deviceType_id=deviceType_id)
+    parameters = Parameter.objects.filter(deviceType_id=deviceType_id)
+    context = {
+        "devices": devices,
+        "parameters": parameters
+    }
+    template = loader.get_template('smhapp/loads/load_dashboard.html')
+    return HttpResponse(template.render(context, request))
+
 def load_departments(request):
     departments = Department.objects.all()
 
@@ -72,7 +94,7 @@ def load_departments(request):
         "departments": departments
     }
     template = loader.get_template('smhapp/loads/load_departments.html')
-    return HttpResponse(template.render(context, request));
+    return HttpResponse(template.render(context, request))
 
 def load_room_cards(request):
     department_id = request.GET.get('department_id')
@@ -185,10 +207,9 @@ def ArquivoMedicaoView(request):
         medicao.save()
         values = []
         for key, v in f.items():
-            value = MeasurementValue(value=v, measurement = medicao, parameter = Parameter.objects.get(code = key))
+            value = MeasurementValue(value=v, measurement = medicao, parameter = Parameter.objects.get(code = key, deviceType = selecionada.deviceType ))
             value.save()
             values.append(value)
-        
     else:
         forma = UploadFileForm()
     return render(request, 'smhapp/deviceDetails.html', {'medicao': medicao, 'valores': values})
@@ -211,4 +232,4 @@ def NewDeviceType(request):
     else:
         form = UploadFileForm()
     #return render(request, 'smhapp/dashboard.html', {'forma': f})
-    return render(request, 'smhapp/arquivoMedicao.html', {'form': d})
+    return render(request, 'smhapp/deviceDetails.html', {'form': d})

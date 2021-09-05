@@ -1,0 +1,32 @@
+<div>
+    <table>
+        <thead>
+            <th>ID Maquina</th>
+            <th>Setor</th>
+            <th>Sala</th>
+            {% for parameter in parameters %}
+            <th>{{ parameter }}</th>
+            {% endfor %}
+        </thead>
+        <tbody>
+            {% for device in devices %}
+            <tr>
+                <td>
+                    <a href="{% url 'smhapp:deviceDetails' device.id %}">{{ device.name }}</a> 
+                </td>
+                <td>
+                    {{ device.room.department }}
+                </td>
+                <td>
+                    {{ device.room }}
+                </td>
+                {% for measurementValue in device.measurement_set.last.measurementvalue_set.all %}
+                <td>
+                    {{ measurementValue.value }}
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

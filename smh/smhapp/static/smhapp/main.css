@@ -123,6 +123,13 @@ input, select {
     justify-content: space-between;
     margin-top: 10px;
 }
+.modal-rown {
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 10px;
+}
 
 .modal-row > label {
     margin-bottom: 5px;
